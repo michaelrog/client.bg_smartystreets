@@ -1,6 +1,6 @@
 //<![CDATA[
 
-FunctionHandler.register('*', function(){
+$(function(){
 
 	// ========================================== 
 	// ============ CART/CHECKOUT FORMS
