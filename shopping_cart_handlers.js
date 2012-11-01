@@ -60,21 +60,26 @@ $(function(){
 			if (this.checked) {
 				$('#shipping_details_drawer').slideUp();
 				clear_shipping();
-				liveaddress.mapFields([billing_fields_map]);
 			} else {
 				$('#shipping_details_drawer').slideDown();
 				sync_shipping_and_billing();
-				liveaddress.mapFields([shipping_fields_map, billing_fields_map]);
 			}
 		});
 		
 		if ($('#shipping_same_as_billing').is(':checked')) {
 			$('#shipping_details_drawer').hide();
 			clear_shipping();
-			liveaddress.mapFields([billing_fields_map]);
-		} else {
-			liveaddress.mapFields([shipping_fields_map, billing_fields_map]);
 		}
+
+
+		liveaddress.on("VerificationInvoked", function(event, data, previousHandler) {
+			// If both addresses are visible -OR- the address in the pipeline is the billing address, then verify
+			if ($('#shipping_details_drawer').is(':visible') || data.address.id() == "billing")
+				previousHandler(event, data);    // This continues the verification process
+			else if (data.address.id() == "shipping")
+				$('form').submit();		// It's still important to let this pass-thru by submitting the form!
+		});
+
 
 		var order_custom3_change = function() {
 			var v = $("#order_custom3").val();
