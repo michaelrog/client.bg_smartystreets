@@ -77,7 +77,7 @@ $(function(){
 			if ($('#shipping_details_drawer').is(':visible') || data.address.id() == "billing")
 				previousHandler(event, data);    // This continues the verification process
 			else if (data.address.id() == "shipping")
-				$('form').submit();		// It's still important to let this pass-thru by submitting the form!
+				$('form.form-horizontal').submit(); // It's still important to let this pass-thru by submitting the form!
 		});
 
 
